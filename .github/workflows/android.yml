@@ -19,6 +19,8 @@ jobs:
           if [ "$HOME" != "/root" ]; then
             cp -r /root/.local/share/godot/export_templates/. "$HOME/.local/share/godot/export_templates/"
           fi
+          echo "== шаблоны =="
+          ls -la "$HOME/.local/share/godot/export_templates/"*/ | head -60
 
       - name: Отладочный ключ подписи
         run: |
