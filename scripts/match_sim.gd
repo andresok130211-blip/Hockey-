@@ -424,7 +424,7 @@ func step(dt: float, inp: Dictionary) -> void:
 			if o.team == cr.team or o.cd > 0.0:
 				continue
 			if o.pos.distance_to(cr.pos) < 20.0:
-				var rate := 0.9 * (o.def / maxf(30.0, cr.spd)) * (4.0 if o.tk > 0.0 else 1.0)
+				var rate: float = 0.9 * (o.def / maxf(30.0, cr.spd)) * (4.0 if o.tk > 0.0 else 1.0)
 				if o.team == 1:
 					rate *= 0.6 + 0.4 * ai
 				if rng.randf() < dt * rate:

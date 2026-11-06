@@ -399,9 +399,9 @@ func _card_menu(id: int) -> void:
 	crow.add_child(_card(c))
 	vb.add_child(crow)
 	vb.add_child(_label("%s · прокачка +%d из 8" % [GameData.POS_NAME[c["pos"]], int(c["ovr"]) - int(c["base"])], 18, Color("8fa3d4"), HORIZONTAL_ALIGNMENT_CENTER))
-	var tr := _btn("Тренировка +1  (%d монет)" % data.train_cost(c), _train_card.bind(id))
-	tr.disabled = not data.can_train(c)
-	vb.add_child(tr)
+	var train_btn := _btn("Тренировка +1  (%d монет)" % data.train_cost(c), _train_card.bind(id))
+	train_btn.disabled = not data.can_train(c)
+	vb.add_child(train_btn)
 	var inl := data.in_lineup(id)
 	var sl := _btn("Продать за %d%s" % [data.sell_price(c), " (в составе)" if inl else ""], _sell_card.bind(id), Color("e03c42"), Color.WHITE)
 	sl.disabled = inl
