@@ -15,8 +15,29 @@ jobs:
 
       - name: Подготовка шаблонов экспорта
         run: |
-          mkdir -v -p ~/.local/share/godot/export_templates/
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          echo "HOME=$HOME GODOT_VERSION=$GODOT_VERSION"
+          ls -la /root/.local/share/godot/export_templates/ || true
+          mkdir -p "$HOME/.local/share/godot/export_templates"
+          if [ "$HOME" != "/root" ]; then
+            cp -r /root/.local/share/godot/export_templates/. "$HOME/.local/share/godot/export_templates/"
+          fi
+          ls -la "$HOME/.local/share/godot/export_templates/"
+
+      - name: Настройки редактора (Android SDK и Java)
+        run: |
+          SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/lib/android-sdk}}"
+          JAVA="${JAVA_HOME:-$(dirname "$(dirname "$(readlink -f "$(which javac)")")")}"
+          echo "SDK=$SDK JAVA=$JAVA"
+          mkdir -p "$HOME/.config/godot"
+          cat > "$HOME/.config/godot/editor_settings-4.3.tres" <<EOF
+          [gd_resource type="EditorSettings" format=3]
+
+          [resource]
+          export/android/android_sdk_path = "$SDK"
+          export/android/java_sdk_path = "$JAVA"
+          EOF
+          sed -i 's/^          //' "$HOME/.config/godot/editor_settings-4.3.tres"
+          cat "$HOME/.config/godot/editor_settings-4.3.tres"
 
       - name: Отладочный ключ подписи
         run: |
