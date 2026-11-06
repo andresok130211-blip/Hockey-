@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   export-android:
     runs-on: ubuntu-latest
@@ -19,8 +22,6 @@ jobs:
           if [ "$HOME" != "/root" ]; then
             cp -r /root/.local/share/godot/export_templates/. "$HOME/.local/share/godot/export_templates/"
           fi
-          echo "== шаблоны =="
-          ls -la "$HOME/.local/share/godot/export_templates/"*/ | head -60
 
       - name: Отладочный ключ подписи
         run: |
@@ -59,3 +60,12 @@ jobs:
         with:
           name: IceLegends-apk
           path: build/IceLegends.apk
+
+      - name: Публикация APK в Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Ice Legends (последняя сборка)
+          body: Отладочный APK для Android. Скачайте IceLegends.apk и установите.
+          files: build/IceLegends.apk
+          make_latest: true
