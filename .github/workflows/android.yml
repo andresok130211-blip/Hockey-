@@ -23,10 +23,6 @@ jobs:
             cp -r /root/.local/share/godot/export_templates/. "$HOME/.local/share/godot/export_templates/"
           fi
 
-      - name: Отладочный ключ подписи
-        run: |
-          keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore "$GITHUB_WORKSPACE/debug.keystore" -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999 -deststoretype pkcs12
-
       - name: Настройки редактора (Android SDK, Java, ключ)
         run: |
           SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/lib/android-sdk}}"
